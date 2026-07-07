@@ -1,0 +1,34 @@
+rules:
+  - rule_id: word_filter.default_blocklist
+    type: word_filter
+    action: block
+    banned_words:
+      - dammit
+      - shitshow
+      - confidential_project_x
+
+  - rule_id: sensitive_info.aadhaar
+    type: aadhaar
+    action: redact
+
+  - rule_id: denied_topics.medical_advice
+    type: denied_topic
+    action: block
+    topic_name: personal medical advice
+    trigger_phrases:
+      - "should I take"
+      - "medical advice"
+      - "diagnose my"
+      - "my symptoms are"
+
+  - rule_id: content_filter.prompt_injection
+    type: prompt_injection
+    action: block
+
+  - rule_id: contextual_grounding.monetary_claims
+    type: contextual_grounding
+    action: warn
+
+  - rule_id: automated_reasoning.arithmetic_check
+    type: arithmetic_check
+    action: warn
