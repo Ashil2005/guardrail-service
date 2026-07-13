@@ -16,6 +16,21 @@ class PromptInjectionRule(Rule):
         r'</?system>',
         r'<\|.*?\|>',  # llama-style special tokens
         r'reveal\s+(your\s+)?(system\s+prompt|instructions)',
+        # Instruction-override paraphrases — attackers rarely use the exact
+        # "ignore previous instructions" wording the patterns above expect.
+        r'ignore\s+(all\s+)?(the\s+|your\s+|previous\s+|above\s+|that\s+)?(system\s+)?(instructions?|directions?|rules?|prompts?)',
+        r'disregard\s+(the\s+|all\s+|your\s+|previous\s+|above\s+|that\s+)?(system\s+)?(instructions?|directions?|rules?|prompts?)',
+        r'forget\s+(the\s+|all\s+|your\s+|previous\s+|above\s+|that\s+)?(system\s+)?(instructions?|directions?|rules?|prompts?|system)',
+        r'override\s+(the\s+|all\s+|your\s+|previous\s+|that\s+)?(system\s+)?(instructions?|directions?|rules?|prompts?|system)',
+        r'do\s+not\s+follow\s+(the\s+|any\s+|your\s+|previous\s+|that\s+)?(instructions?|rules?|guidelines?)',
+        # System-prompt / rules disclosure paraphrases
+        r'(reveal|show|print|display|give|tell)\s+(me\s+)?(the\s+|your\s+)?(system\s+)?(prompts?|instructions?|rules?|configuration)',
+        r'what\s+(is|are)\s+(the\s+|your\s+)?(system\s+)?(prompts?|instructions?|rules?)',
+        r'repeat\s+(the\s+|your\s+)?(system\s+)?(prompts?|instructions?)',
+        # Role-hijack paraphrases ("you are now" above already covers the
+        # broadest form of this attack)
+        r'act\s+as\s+(a\s+)?(different|new|jailbroken|unrestricted)',
+        r'pretend\s+to\s+be\s+(a\s+)?(different|new|jailbroken)',
     ]
 
     def __init__(self, rule_id: str = "content_filter.prompt_injection",
