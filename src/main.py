@@ -85,7 +85,10 @@ def health():
 
 @app.post("/guardrails/check", response_model=CheckResponse)
 def check(req: CheckRequest):
-    context = {"has_retrieval_context": req.has_retrieval_context}
+    context = {
+        "has_retrieval_context": req.has_retrieval_context,
+        "tenant_id": req.tenant_id,
+    }
     matches = evaluate(_rules, req.text, req.direction, context=context)
 
     logger.info(

@@ -10,6 +10,7 @@ class Category(str, Enum):
     CONTENT_FILTER = "content_filter"
     CONTEXTUAL_GROUNDING = "contextual_grounding"
     AUTOMATED_REASONING = "automated_reasoning"
+    CROSS_TENANT = "cross_tenant"
 
 
 class Action(str, Enum):

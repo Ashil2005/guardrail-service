@@ -32,3 +32,7 @@ rules:
   - rule_id: automated_reasoning.arithmetic_check
     type: arithmetic_check
     action: warn
+
+  - rule_id: cross_tenant.request_detected
+    type: cross_tenant
+    action: block

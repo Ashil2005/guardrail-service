@@ -7,6 +7,7 @@ from .rules.denied_topics import DeniedTopicRule
 from .rules.content_filter import PromptInjectionRule
 from .rules.contextual_grounding import ContextualGroundingRule
 from .rules.automated_reasoning import ArithmeticCheckRule
+from .rules.cross_tenant import CrossTenantRule
 
 
 def load_rules(config_path: Path) -> list[Rule]:
@@ -48,6 +49,11 @@ def load_rules(config_path: Path) -> list[Rule]:
             ))
         elif rule_type == 'arithmetic_check':
             rules.append(ArithmeticCheckRule(
+                rule_id=rule_def['rule_id'],
+                action=action,
+            ))
+        elif rule_type == 'cross_tenant':
+            rules.append(CrossTenantRule(
                 rule_id=rule_def['rule_id'],
                 action=action,
             ))

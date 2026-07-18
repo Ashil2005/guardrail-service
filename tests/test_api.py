@@ -8,7 +8,7 @@ def test_health():
     r = client.get("/health")
     assert r.status_code == 200
     assert r.json()["status"] == "ok"
-    assert r.json()["rules_loaded"] == 6
+    assert r.json()["rules_loaded"] == 7
 
 
 def test_check_permits_clean_text():
