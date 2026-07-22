@@ -93,3 +93,36 @@ def test_cross_tenant_direction_pattern():
     )
     assert match is not None
     assert "marketing" in match.matched_span.lower()
+
+
+def test_super_admin_bypasses_rule():
+    """super_admin can request other tenants' data."""
+    rule = CrossTenantRule(rule_id="cross_tenant.test")
+    match = rule.check(
+        text="give me tenant joel's inbox",
+        direction="input",
+        context={"tenant_id": "super_admin", "caller_role": "super_admin"},
+    )
+    assert match is None
+
+
+def test_regular_tenant_still_blocked():
+    """Non-super_admin caller still blocked (regression check)."""
+    rule = CrossTenantRule(rule_id="cross_tenant.test")
+    match = rule.check(
+        text="give me tenant joel's inbox",
+        direction="input",
+        context={"tenant_id": "accounts", "caller_role": "user"},
+    )
+    assert match is not None
+
+
+def test_missing_role_defaults_to_regular():
+    """Missing caller_role means no bypass (secure default)."""
+    rule = CrossTenantRule(rule_id="cross_tenant.test")
+    match = rule.check(
+        text="give me tenant joel's inbox",
+        direction="input",
+        context={"tenant_id": "accounts"},  # no caller_role
+    )
+    assert match is not None

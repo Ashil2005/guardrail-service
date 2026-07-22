@@ -28,6 +28,7 @@ class CheckRequest(BaseModel):
     tenant_id: Optional[str] = None
     session_id: Optional[str] = None
     request_id: Optional[str] = None
+    caller_role: Optional[str] = None
     # Whether this text was generated with retrieval context behind it
     # (e.g. retrieved emails). Used by contextual_grounding rules — defaults
     # to False so ungrounded claims are flagged unless the caller says
@@ -88,6 +89,7 @@ def check(req: CheckRequest):
     context = {
         "has_retrieval_context": req.has_retrieval_context,
         "tenant_id": req.tenant_id,
+        "caller_role": req.caller_role,
     }
     matches = evaluate(_rules, req.text, req.direction, context=context)
 

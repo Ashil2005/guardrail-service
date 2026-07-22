@@ -51,6 +51,9 @@ class CrossTenantRule(Rule):
         if direction != 'input':
             return None
 
+        if (context or {}).get('caller_role') == 'super_admin':
+            return None
+
         caller_tenant = (context or {}).get('tenant_id')
         if not caller_tenant:
             # Can't tell what's cross-tenant without knowing who's asking.
